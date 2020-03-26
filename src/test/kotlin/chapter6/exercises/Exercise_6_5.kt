@@ -5,15 +5,16 @@ import chapter6.Rand
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
-//tag::init[]
-val doubleR: Rand<Double> = TODO()
-//end::init[]
+class Helper {
+    //tag::init[]
+    val doubleR: Rand<Double> = TODO()
+    //end::init[]
+}
 
 /**
  * TODO: Re-enable tests by removing `!` prefix!
  */
 class Exercise_6_5 : WordSpec({
-
     "doubleR" should {
 
         val unusedRng = object : RNG {
@@ -28,7 +29,7 @@ class Exercise_6_5 : WordSpec({
                         Pair(Int.MAX_VALUE, unusedRng)
                 }
 
-                doubleR(rngMax) shouldBe Pair(
+                Helper().doubleR(rngMax) shouldBe Pair(
                     0.9999999995343387,
                     unusedRng
                 )
@@ -41,7 +42,7 @@ class Exercise_6_5 : WordSpec({
                     Pair(0, unusedRng)
             }
 
-            doubleR(rngMin) shouldBe Pair(0.0, unusedRng)
+            Helper().doubleR(rngMin) shouldBe Pair(0.0, unusedRng)
         }
     }
 })
