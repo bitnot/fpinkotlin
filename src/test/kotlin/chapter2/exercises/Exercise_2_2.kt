@@ -11,7 +11,15 @@ val <T> List<T>.tail: List<T>
 val <T> List<T>.head: T
     get() = first()
 
-fun <A> isSorted(aa: List<A>, order: (A, A) -> Boolean): Boolean = TODO()
+tailrec fun <A> isSorted(aa: List<A>, order: (A, A) -> Boolean): Boolean {
+    if (aa.isEmpty() || aa.tail.isEmpty()) {
+        return true
+    }
+    if (!order(aa.head, aa.tail.head)) {
+        return false
+    }
+    return isSorted(aa.tail, order)
+}
 // end::init[]
 
 class Exercise_2_2 : WordSpec({
@@ -20,31 +28,31 @@ class Exercise_2_2 : WordSpec({
      * Re-enable the tests by removing the `!` prefix!
      */
     "isSorted" should {
-        """!detect ordering of a list of correctly ordered Ints based
+        """detect ordering of a list of correctly ordered Ints based
             on an ordering HOF""" {
             isSorted(
                 persistentListOf(1, 2, 3)
             ) { a, b -> b > a } shouldBe true
         }
-        """!detect ordering of a list of incorrectly ordered Ints
+        """detect ordering of a list of incorrectly ordered Ints
             based on an ordering HOF""" {
             isSorted(
                 persistentListOf(1, 3, 2)
             ) { a, b -> b > a } shouldBe false
         }
-        """!verify ordering of a list of correctly ordered Strings
+        """verify ordering of a list of correctly ordered Strings
             based on an ordering HOF""" {
             isSorted(
                 persistentListOf("a", "b", "c")
             ) { a, b -> b > a } shouldBe true
         }
-        """!verify ordering of a list of incorrectly ordered Strings
+        """verify ordering of a list of incorrectly ordered Strings
             based on an ordering HOF""" {
             isSorted(
                 persistentListOf("a", "z", "w")
             ) { a, b -> b > a } shouldBe false
         }
-        "!return true for an empty list" {
+        "return true for an empty list" {
             isSorted(persistentListOf<Int>()) { a, b ->
                 b > a
             } shouldBe true

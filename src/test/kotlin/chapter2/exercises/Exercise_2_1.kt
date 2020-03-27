@@ -6,14 +6,19 @@ import kotlinx.collections.immutable.persistentMapOf
 
 class Exercise_2_1 : WordSpec({
     // tag::init[]
-    fun fib(i: Int): Int = TODO()
+    fun fib(i: Int): Int {
+        tailrec fun go(j: Int, current: Int, next: Int): Int =
+            if (j <= 0) current
+            else go(j - 1, next, next + current)
+        return go(i, 0, 1)
+    }
     // end::init[]
 
     /**
      * Re-enable the tests by removing the `!` prefix!
      */
     "fib" should {
-        "!return the nth fibonacci number" {
+        "return the nth fibonacci number" {
             persistentMapOf(
                 Pair(1, 1),
                 Pair(2, 1),

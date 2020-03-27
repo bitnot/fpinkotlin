@@ -5,15 +5,16 @@ import io.kotlintest.specs.WordSpec
 
 class Exercise_2_3 : WordSpec({
     // tag::init[]
-    fun <A, B, C> curry(f: (A, B) -> C): (A) -> (B) -> C = TODO()
+    fun <A, B, C> curry(f: (A, B) -> C): (A) -> (B) -> C =
+        { a: A -> { b: B -> f(a, b) } }
     // end::init[]
 
     /**
      * Re-enable the tests by removing the `!` prefix!
      */
     "curry" should {
-        """!break down a function that takes multiple arguments into
-            a series of functions that each take only oneargument""" {
+        """break down a function that takes multiple arguments into
+            a series of functions that each take only one argument""" {
 
                 val f: (Int) -> (Int) -> String =
                     curry { a: Int, b: Int -> "$a:$b" }
