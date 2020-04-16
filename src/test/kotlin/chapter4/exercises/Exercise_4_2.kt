@@ -2,6 +2,7 @@ package chapter4.exercises
 
 import chapter3.List
 import chapter4.Boilerplate.isEmpty
+import chapter4.Boilerplate.map
 import chapter4.Boilerplate.size
 import chapter4.Boilerplate.sum
 import chapter4.None
@@ -10,19 +11,23 @@ import chapter4.Some
 import io.kotlintest.matchers.doubles.plusOrMinus
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
+import kotlin.math.pow
 
-fun mean(xs: List<Double>): Option<Double> =
-    if (xs.isEmpty()) None
-    else Some(xs.sum() / xs.size())
+fun List<Double>.mean() =
+    if (this.isEmpty()) None
+    else Some(this.sum() / this.size())
 
 //tag::init[]
-fun variance(xs: List<Double>): Option<Double> = TODO()
+fun variance(xs: List<Double>): Option<Double> =
+    xs.mean().flatMap { m ->
+        xs.map { x -> (x - m).pow(2) }.mean()
+    }
 //end::init[]
 
 class Exercise_4_2 : WordSpec({
 
     "variance" should {
-        "!determine the variance of a list of numbers" {
+        "determine the variance of a list of numbers" {
             val ls =
                 List.of(1.0, 1.1, 1.0, 3.0, 0.9, 0.4)
             variance(ls).getOrElse { 0.0 } shouldBe

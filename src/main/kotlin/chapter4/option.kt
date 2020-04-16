@@ -6,6 +6,7 @@ sealed class Option<out A> {
     //tag::helpers[]
     companion object {
         fun <A> empty(): Option<A> = None
+        fun <A> of(a: A): Option<A> = Some(a)
     }
     //end::helpers[]
 }

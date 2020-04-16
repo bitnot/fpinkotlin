@@ -8,7 +8,9 @@ import io.kotlintest.specs.WordSpec
 
 //tag::init[]
 fun <A, B, C> map2(a: Option<A>, b: Option<B>, f: (A, B) -> C): Option<C> =
-    TODO()
+    if (a is Some && b is Some)
+        Some(f(a.get, b.get))
+    else None
 //end::init[]
 
 class Exercise_4_3 : WordSpec({
@@ -19,13 +21,13 @@ class Exercise_4_3 : WordSpec({
         val b = Some(20)
         val none = Option.empty<Int>()
 
-        "!combine two option values using a binary function" {
+        "combine two option values using a binary function" {
             map2(a, b) { aa, bb ->
                 aa * bb
             } shouldBe Some(100)
         }
 
-        "!return none if either option is not defined" {
+        "return none if either option is not defined" {
             map2(a, none) { aa, bb ->
                 aa * bb
             } shouldBe None
