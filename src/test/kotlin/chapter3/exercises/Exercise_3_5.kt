@@ -18,7 +18,6 @@ fun <A> init(l: List<A>): List<A> = when (l) {
 // end::init[]
 
 class Exercise_3_5 : WordSpec({
-
     "list init" should {
         "return all but the last element" {
             init(List.of(1, 2, 3, 4, 5)) shouldBe

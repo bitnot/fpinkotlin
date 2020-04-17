@@ -9,9 +9,6 @@ class Exercise_2_5 : WordSpec({
         { a -> f(g(a)) }
     // end::init[]
 
-    /**
-     * Re-enable the tests by removing the `!` prefix!
-     */
     "compose" should {
         "apply function composition over two functions" {
             val fahrenheit2celsius: (Double) -> String =

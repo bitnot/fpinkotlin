@@ -14,7 +14,6 @@ fun <A, B, C> map2(a: Option<A>, b: Option<B>, f: (A, B) -> C): Option<C> =
 //end::init[]
 
 class Exercise_4_3 : WordSpec({
-
     "map2" should {
 
         val a = Some(5)

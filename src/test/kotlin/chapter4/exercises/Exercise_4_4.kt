@@ -23,7 +23,6 @@ fun <A> sequence(xs: List<Option<A>>): Option<List<A>> = xs.foldRight(
 //end::init[]
 
 class Exercise_4_4 : WordSpec({
-
     "sequence" should {
         "turn a list of some options into an option of list" {
             val lo =

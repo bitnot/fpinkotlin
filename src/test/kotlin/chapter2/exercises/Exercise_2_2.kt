@@ -23,10 +23,6 @@ tailrec fun <A> isSorted(aa: List<A>, order: (A, A) -> Boolean): Boolean {
 // end::init[]
 
 class Exercise_2_2 : WordSpec({
-
-    /**
-     * Re-enable the tests by removing the `!` prefix!
-     */
     "isSorted" should {
         """detect ordering of a list of correctly ordered Ints based
             on an ordering HOF""" {

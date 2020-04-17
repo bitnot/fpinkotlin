@@ -9,9 +9,6 @@ class Exercise_2_4 : WordSpec({
         { a: A, b: B -> f(a)(b) }
     // end::init[]
 
-    /**
-     * Re-enable the tests by removing the `!` prefix!
-     */
     "uncurry" should {
         """take a function accepting two values and then apply that
             function to the components of the pair which is the

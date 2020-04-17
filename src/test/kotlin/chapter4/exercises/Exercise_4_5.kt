@@ -9,7 +9,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
 class Exercise_4_5 : WordSpec({
-
     //tag::traverse[]
     fun <A, B> traverse(
         xa: List<A>,

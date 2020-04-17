@@ -25,7 +25,6 @@ fun variance(xs: List<Double>): Option<Double> =
 //end::init[]
 
 class Exercise_4_2 : WordSpec({
-
     "variance" should {
         "determine the variance of a list of numbers" {
             val ls =

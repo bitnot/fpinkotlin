@@ -14,9 +14,6 @@ class Exercise_2_1 : WordSpec({
     }
     // end::init[]
 
-    /**
-     * Re-enable the tests by removing the `!` prefix!
-     */
     "fib" should {
         "return the nth fibonacci number" {
             persistentMapOf(

@@ -14,7 +14,6 @@ fun <A> dropWhile(l: List<A>, f: (A) -> Boolean): List<A> = when (l) {
 // end::init[]
 
 class Exercise_3_4 : WordSpec({
-
     "list dropWhile" should {
         "drop elements until predicate is no longer satisfied" {
             dropWhile(
