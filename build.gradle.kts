@@ -30,6 +30,7 @@ repositories {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.suppressWarnings = true
+    incremental = true
 }
 
 ktlint {
