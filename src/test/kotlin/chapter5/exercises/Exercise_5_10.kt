@@ -7,17 +7,18 @@ import chapter5.solutions.take
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
-/**
- * Re-enable the tests by removing the `!` prefix!
- */
 class Exercise_5_10 : WordSpec({
 
     //tag::init[]
-    fun fibs(): Stream<Int> = TODO()
+    fun fibs(): Stream<Int> {
+        fun go(p1: Int, p2: Int): Stream<Int> =
+            Stream.cons({ p1 }, { go(p2, p1 + p2) })
+        return go(0, 1)
+    }
     //end::init[]
 
     "fibs" should {
-        "!return a Stream of fibonacci sequence numbers" {
+        "return a Stream of fibonacci sequence numbers" {
             fibs().take(10).toList() shouldBe
                 List.of(0, 1, 1, 2, 3, 5, 8, 13, 21, 34)
         }
