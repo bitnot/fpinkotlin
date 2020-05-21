@@ -1,6 +1,7 @@
 package chapter6.exercises
 
 import chapter3.List
+import chapter3.solutions.foldRight
 import chapter6.RNG
 import chapter6.rng1
 import io.kotlintest.shouldBe
@@ -10,42 +11,50 @@ import io.kotlintest.specs.WordSpec
 data class State<S, out A>(val run: (S) -> Pair<A, S>) {
 
     companion object {
-        fun <S, A> unit(a: A): State<S, A> = TODO()
+        fun <S, A> unit(a: A): State<S, A> = State { a to it }
 
         fun <S, A, B, C> map2(
             ra: State<S, A>,
             rb: State<S, B>,
             f: (A, B) -> C
-        ): State<S, C> = TODO()
+        ): State<S, C> = ra.flatMap { a: A ->
+            rb.flatMap { b: B ->
+                unit<S, C>(f(a, b))
+            }
+        }
 
         fun <S, A> sequence(fs: List<State<S, A>>):
-            State<S, List<A>> = TODO()
+            State<S, List<A>> = foldRight(
+            fs,
+            unit(List.empty()),
+            { ra, rla -> map2(ra, rla, ::cons) })
     }
 
-    fun <B> map(f: (A) -> B): State<S, B> = TODO()
+    fun <B> map(f: (A) -> B): State<S, B> =
+        flatMap { a: A -> unit<S, B>(f(a)) }
 
-    fun <B> flatMap(f: (A) -> State<S, B>): State<S, B> = TODO()
+    fun <B> flatMap(f: (A) -> State<S, B>): State<S, B> = State {
+        val (a, s) = run(it)
+        f(a).run(s)
+    }
 }
 //end::init[]
 
-/**
- * TODO: Re-enable tests by removing `!` prefix!
- */
 class Exercise_6_10 : WordSpec({
     "unit" should {
-        "!compose a new state of pure a" {
+        "compose a new state of pure a" {
             State.unit<RNG, Int>(1).run(rng1) shouldBe Pair(1, rng1)
         }
     }
     "map" should {
-        "!transform a state" {
+        "transform a state" {
             State.unit<RNG, Int>(1)
                 .map { it.toString() }
                 .run(rng1) shouldBe Pair("1", rng1)
         }
     }
     "flatMap" should {
-        "!transform a state" {
+        "transform a state" {
             State.unit<RNG, Int>(1)
                 .flatMap { i ->
                     State.unit<RNG, String>(i.toString())
@@ -53,7 +62,7 @@ class Exercise_6_10 : WordSpec({
         }
     }
     "map2" should {
-        "!combine the results of two actions" {
+        "combine the results of two actions" {
 
             val combined: State<RNG, String> =
                 State.map2(
@@ -67,7 +76,7 @@ class Exercise_6_10 : WordSpec({
         }
     }
     "sequence" should {
-        "!combine the results of many actions" {
+        "combine the results of many actions" {
 
             val combined: State<RNG, List<Int>> =
                 State.sequence(

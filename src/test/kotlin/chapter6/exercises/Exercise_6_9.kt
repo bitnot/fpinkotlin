@@ -9,11 +9,12 @@ import io.kotlintest.specs.WordSpec
 class Exercise_6_9 : WordSpec({
 
     //tag::init1[]
-    fun <A, B> mapF(ra: Rand<A>, f: (A) -> B): Rand<B> = TODO()
+    fun <A, B> mapF(ra: Rand<A>, f: (A) -> B): Rand<B> =
+        flatMap(ra) { a: A -> unit(f(a)) }
     //end::init1[]
 
     "mapF" should {
-        "!map over a value using flatMap" {
+        "map over a value using flatMap" {
             mapF(
                 unit(1),
                 { a -> a.toString() })(rng1).first shouldBe "1"
@@ -28,11 +29,11 @@ class Exercise_6_9 : WordSpec({
         ra: Rand<A>,
         rb: Rand<B>,
         f: (A, B) -> C
-    ): Rand<C> = TODO()
+    ): Rand<C> = flatMap(ra, { a -> flatMap(rb) { b -> unit(f(a, b)) } })
     //end::init2[]
 
     "map2F" should {
-        "!combine the results of two actions" {
+        "combine the results of two actions" {
 
             val combined: Rand<String> =
                 map2F(
