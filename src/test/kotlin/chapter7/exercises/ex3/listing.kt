@@ -14,30 +14,40 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
+fun <A, B, C> map2(a: Par<A>, b: Par<B>, f: (A, B) -> C): Par<C> = { es ->
+    TimedMap2Future(a(es), b(es), f)
+}
+
 data class TimedMap2Future<A, B, C>(
     val pa: Future<A>,
     val pb: Future<B>,
     val f: (A, B) -> C
 ) : Future<C> {
 
-    override fun isDone(): Boolean = TODO()
+    override fun isDone(): Boolean = pa.isDone && pb.isDone
 
-    override fun get(): C = TODO()
+    override fun get(): C = f(pa.get(), pb.get())
 
-    override fun get(to: Long, tu: TimeUnit): C = TODO()
+    override fun get(to: Long, tu: TimeUnit): C {
+        val startTimeNs = System.nanoTime()
+        val a = pa.get(to, tu)
+        val elapsedNs = System.nanoTime() - startTimeNs
+        val remainingNs = tu.toNanos(to) - elapsedNs
+        val b = pb.get(remainingNs, TimeUnit.NANOSECONDS)
+        return f(a, b)
+    }
 
-    override fun cancel(b: Boolean): Boolean = TODO()
+    override fun cancel(b: Boolean): Boolean {
+        val pac = pa.cancel(b)
+        val pbc = pb.cancel(b)
+        return pac && pbc
+    }
 
-    override fun isCancelled(): Boolean = TODO()
+    override fun isCancelled(): Boolean =
+        pa.isCancelled && pb.isCancelled
 }
 
 class Exercise_7_3 : WordSpec({
-
-    fun <A, B, C> map2(
-        a: Par<A>,
-        b: Par<B>,
-        f: (A, B) -> C
-    ): Par<C> = TODO()
 
     val es: ExecutorService =
         ThreadPoolExecutor(
