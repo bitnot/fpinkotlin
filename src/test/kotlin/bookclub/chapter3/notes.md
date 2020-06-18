@@ -1,0 +1,11 @@
+- forget "bijection/permutation"
+- explain the difference between `foldRight` and `foldLeft`
+- explain how it would be nice to use a queue
+- explain how the call stack becomes a queue if you reverse execution order with `compose`
+- stay a bit longer on `compose` and focus on changing order
+- keep it short
+- consider using slides
+- start with other exercises
+- set `kotlin.incremental=true`
+- include real world examples
+- try refactor some production code to the topic 
