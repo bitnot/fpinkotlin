@@ -54,7 +54,7 @@ class Solution_7_2 : WordSpec({
         }
         """fully evaluate a given Par spawning computations 
             and extracting value""" {
-            Par.run(Par.unit { 1 })
+            Par.run(Par.unit(1))
         }
     }
 })

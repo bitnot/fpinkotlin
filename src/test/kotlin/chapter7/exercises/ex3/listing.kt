@@ -55,7 +55,7 @@ class Exercise_7_3 : WordSpec({
         )
 
     "map2" should {
-        "!allow two futures to run within a given timeout" {
+        "allow two futures to run within a given timeout" {
 
             val pa = Pars.fork {
                 Thread.sleep(400L)
@@ -75,7 +75,7 @@ class Exercise_7_3 : WordSpec({
             }
         }
 
-        "!timeout if first future exceeds timeout" {
+        "timeout if first future exceeds timeout" {
 
             val pa = Pars.fork {
                 Thread.sleep(1100L)
@@ -97,7 +97,7 @@ class Exercise_7_3 : WordSpec({
             }
         }
 
-        "!timeout if second future exceeds timeout" {
+        "timeout if second future exceeds timeout" {
 
             val pa = Pars.fork {
                 Thread.sleep(100L)
