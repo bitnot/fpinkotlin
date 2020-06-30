@@ -13,19 +13,12 @@ fun <A, B> flatMap(pa: Par<A>, f: (A) -> Par<B>): Par<B> = { es ->
 //end::init[]
 
 fun <A> choice(cond: Par<Boolean>, t: Par<A>, f: Par<A>): Par<A> =
-    { es: ExecutorService ->
-        flatMap(cond, { if (it) t else f })(es)
-    }
+    flatMap(cond, { if (it) t else f })
 
 fun <A> choiceN(n: Par<Int>, choices: List<Par<A>>): Par<A> =
-    { es: ExecutorService ->
-        flatMap(n, { choices[it] })(es)
-    }
+    flatMap(n, { choices[it] })
 
 fun <K, V> choiceMap(
     key: Par<K>,
     choices: PersistentMap<K, Par<V>>
-): Par<V> =
-    { es: ExecutorService ->
-        flatMap(key, { choices.getValue(it) })(es)
-    }
+): Par<V> = flatMap(key, { choices.getValue(it) })

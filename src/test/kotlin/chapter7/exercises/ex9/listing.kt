@@ -6,7 +6,7 @@ import chapter7.solutions.sol3.map2
 import chapter7.solutions.sol9.Par
 
 fun <A> choiceN(n: Par<Int>, choices: List<Par<A>>): Par<A> =
-    map2(n, sequence(choices)) { i, xs -> xs.get(i) }
+    map2(n, sequence(choices)) { i, xs -> xs[i] }
 
 fun <A> choice(
     cond: Par<Boolean>,
