@@ -9,7 +9,7 @@ val test by tasks.getting(Test::class) {
     useJUnitPlatform { }
 }
 
-val arrowVersion = "0.10.2"
+val arrowVersion = "0.10.5"
 dependencies {
     compile(kotlin("stdlib"))
     compile("io.arrow-kt:arrow-core-data:$arrowVersion")
