@@ -7,6 +7,8 @@ data class SGen<A>(val forSize: (Int) -> Gen<A>)
 
 data class Gen<A>(val sample: State<RNG, A>) {
     //tag::init[]
-    fun listOf(): SGen<List<A>> = TODO()
+    fun listOf(): SGen<List<A>> = SGen { n ->
+        Gen(State.sequence(List(n) { sample }))
+    }
     //end::init[]
 }

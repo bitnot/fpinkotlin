@@ -15,10 +15,11 @@ data class Gen<A>(val sample: State<RNG, A>) {
 //tag::init[]
 data class SGen<A>(val forSize: (Int) -> Gen<A>) {
 
-    operator fun invoke(i: Int): Gen<A> = TODO()
+    operator fun invoke(i: Int): Gen<A> = forSize(i)
 
-    fun <B> map(f: (A) -> B): SGen<B> = TODO()
+    fun <B> map(f: (A) -> B): SGen<B> = SGen { i -> forSize(i).map(f) }
 
-    fun <B> flatMap(f: (A) -> Gen<B>): SGen<B> = TODO()
+    fun <B> flatMap(f: (A) -> Gen<B>): SGen<B> =
+        SGen { i -> forSize(i).flatMap(f) }
 }
 //end::init[]

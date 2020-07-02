@@ -24,8 +24,20 @@ data class Falsified(
 
 //tag::init[]
 data class Prop(val run: (TestCases, RNG) -> Result) {
-    fun and(p: Prop): Prop = TODO()
+    fun and(p: Prop): Prop = Prop { testCases, rng ->
+        val result = run(testCases, rng)
+        if (result.isFalsified()) result
+        else p.run(testCases, rng)
+    }
 
-    fun or(p: Prop): Prop = TODO()
+    fun or(p: Prop): Prop = Prop { testCases, rng ->
+        val result = run(testCases, rng)
+        if (!result.isFalsified()) result
+        else {
+            val result2 = p.run(testCases, rng)
+            if (result.isFalsified()) result
+            else result2
+        }
+    }
 }
 //end::init[]
