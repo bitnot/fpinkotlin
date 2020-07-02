@@ -8,7 +8,8 @@ data class Gen<A>(val sample: State<RNG, A>) {
 
     companion object {
         fun <A> listOfN(gn: Gen<Int>, ga: Gen<A>): Gen<List<A>> =
-            Gen(gn.sample.flatMap { n -> State.sequence(List(n) { ga.sample }) })
+            Gen(gn.sample.flatMap { n ->
+                State.sequence(List(n) { ga.sample }) })
     }
 
     fun <B> flatMap(f: (A) -> Gen<B>): Gen<B> =
