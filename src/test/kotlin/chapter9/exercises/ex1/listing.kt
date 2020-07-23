@@ -11,10 +11,13 @@ abstract class Listing : ParserDsl<ParseError>() {
         pa: Parser<A>,
         pb: () -> Parser<B>,
         f: (A, B) -> C
-    ): Parser<C> = TODO()
+    ): Parser<C> = product(pa, pb).map { f(it.first, it.second) }
     //end::init1[]
 
     //tag::init2[]
-    override fun <A> many1(p: Parser<A>): Parser<List<A>> = TODO()
+    override fun <A> many1(p: Parser<A>): Parser<List<A>> =
+        map2(p, { many(p) }) { head, tail ->
+            listOf(head) + tail
+        }
     //end::init2[]
 }

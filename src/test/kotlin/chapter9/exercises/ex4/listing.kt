@@ -6,15 +6,13 @@ import chapter9.solutions.final.ParserDsl
 
 abstract class Listing : ParserDsl<ParseError>() {
 
-    fun <A, B, C> map2(
-        pa: Parser<A>,
-        pb: Parser<B>,
-        f: (A, B) -> C
-    ): Parser<C> = TODO()
-
     init {
+        fun <A> cons(head: A, tail: List<A>): List<A> = listOf(head) + tail
+
         //tag::init1[]
-        fun <A> listOfN(n: Int, pa: Parser<A>): Parser<List<A>> = TODO()
+        fun <A> listOfN(n: Int, pa: Parser<A>): Parser<List<A>> =
+            if (n <= 0) succeed(emptyList())
+            else map2(pa, { listOfN(n - 1, pa) }, ::cons)
         //end::init1[]
     }
 }
