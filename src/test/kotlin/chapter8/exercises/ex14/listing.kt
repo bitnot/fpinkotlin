@@ -1,6 +1,5 @@
 package chapter8.exercises.ex14
 
-import arrow.core.extensions.list.foldable.exists
 import chapter8.sec3.listing3.Gen
 import chapter8.sec3.listing3.Prop
 import chapter8.sec3.listing3.SGen
@@ -14,9 +13,11 @@ class Ex14 {
     val maxProp: Prop =
         Prop.Companion.forAll(SGen.listOf(smallInt)) { ns ->
             val sorted = ns.sorted()
-            sorted.isEmpty()
-                || sorted.first() == sorted.min()
-                && sorted.reversed().first() == sorted.max()
+            with(sorted) {
+                isEmpty() || (
+                    first() == min() && reversed().first() == max()
+                    )
+            }
         }
 }
 
