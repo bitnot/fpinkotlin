@@ -8,7 +8,8 @@ abstract class Listing : ParserDsl<ParseError>() {
 
     init {
         //tag::init1[]
-        fun <A, B> map(pa: Parser<A>, f: (A) -> B): Parser<B> = TODO()
+        fun <A, B> map(pa: Parser<A>, f: (A) -> B): Parser<B> =
+            pa.flatMap { a -> succeed(f(a)) }
         //end::init1[]
     }
 }

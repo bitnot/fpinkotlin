@@ -8,7 +8,10 @@ abstract class Listing : ParserDsl<ParseError>() {
     init {
 
         //tag::init1[]
-        val parser: Parser<Int> = TODO()
+        val parser: Parser<Int> = regex("\\d+").flatMap { s ->
+            val i = s.toInt()
+            regex("a{${i}}").map { _ -> i }
+        }
         //end::init1[]
     }
 }
